@@ -12,18 +12,19 @@ description: |
 
 categories:
   - kubernetes
-  - gitops
+  - ci-cd
 
-tags:
+tagz:
   - flux
   - gitops
   - helm
   - multi-tenancy
   - oci
-  - d2-architecture
 
 createdAt: 2026-04-21
 updatedAt: 2026-04-21
+
+cover: __static__/cover.png
 ---
 
 ## Workshop Overview
@@ -61,3 +62,15 @@ used by ControlPlane for enterprise Flux deployments:
 | unit-5 | 15 min | Lab 4: Multi-Tenancy — The D2 Pattern |
 | unit-6 | 10 min | Lab 5: OCI Artifacts and Drift Detection |
 | wrap-up | 10 min | Q&A + where to go next (baked into unit-6) |
+
+---
+
+## About the Author
+
+**Alessandro Vozza** — Cloud Native architect, Golden Kubestronaut, Microsoft CSA,
+KubeCon speaker, and founder of [Kubespaces.io](https://kubespaces.io).
+
+- GitHub: [@ams0](https://github.com/ams0)
+- Email: alessandro.vozza@linux.com
+
+Source repo: [github.com/RichardFeynmanClaw/flux-workshop](https://github.com/RichardFeynmanClaw/flux-workshop)
