@@ -1,0 +1,38 @@
+# Lab 2 Checkpoint: App Deployment with GitRepository + Kustomization
+# Apply this if you fell behind during Lab 2:
+#   kubectl apply -f checkpoints/lab2-complete.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: apps
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: workshop-apps
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/workshop-participant/flux-workshop
+  ref:
+    branch: main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: apps
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./manifests/apps/staging
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: workshop-apps
+  targetNamespace: apps
+  healthChecks:
+    - apiVersion: apps/v1
+      kind: Deployment
+      name: podinfo
+      namespace: apps

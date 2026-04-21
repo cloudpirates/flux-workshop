@@ -1,0 +1,216 @@
+kind: playground
+name: flux-workshop
+base: k3s
+title: "Flux GitOps Workshop"
+description: |
+  A single-node Kubernetes cluster with Flux CLI, Helm, Git, and a local Gitea
+  server pre-installed for hands-on GitOps workshop exercises. No GitHub account
+  or external dependencies needed — everything runs locally.
+cover: __static__/cover.webp
+categories:
+  - kubernetes
+  - gitops
+playground:
+  machines:
+    - name: dev-machine
+      users:
+        - name: root
+        - name: laborant
+          default: true
+      network:
+        interfaces:
+          - network: default
+      resources:
+        cpuCount: 4
+        ramSize: 8GiB
+  tabs:
+    - id: terminal
+      kind: terminal
+      name: Terminal
+      machine: dev-machine
+    - id: editor
+      kind: editor
+      name: Editor
+      machine: dev-machine
+    - id: gitea
+      kind: http
+      name: Gitea
+      machine: dev-machine
+      port: 3000
+  initTasks:
+    init_install_tools:
+      name: init_install_tools
+      machine: dev-machine
+      init: true
+      user: root
+      run: |
+        set -euo pipefail
+
+        # Wait for k3s to be ready
+        echo "Waiting for k3s..."
+        until kubectl get nodes 2>/dev/null | grep -q " Ready"; do
+          sleep 2
+        done
+        echo "k3s is ready."
+
+        # Install Flux CLI
+        echo "Installing Flux CLI..."
+        curl -s https://fluxcd.io/install.sh | bash
+        flux completion bash > /etc/bash_completion.d/flux
+
+        # Ensure helm is available
+        if ! command -v helm &>/dev/null; then
+          echo "Installing Helm..."
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+        fi
+
+        # Install Gitea
+        echo "Installing Gitea..."
+        GITEA_VERSION="1.22.6"
+        curl -sL "https://dl.gitea.com/gitea/${GITEA_VERSION}/gitea-${GITEA_VERSION}-linux-amd64" \
+          -o /usr/local/bin/gitea
+        chmod +x /usr/local/bin/gitea
+
+        # Create gitea system user and dirs
+        useradd --system --shell /bin/bash --create-home --home-dir /home/gitea gitea || true
+        mkdir -p /var/lib/gitea/{custom,data,log}
+        mkdir -p /etc/gitea
+        chown -R gitea:gitea /var/lib/gitea /etc/gitea
+
+        # Gitea config — local SQLite, no email, no registration
+        cat > /etc/gitea/app.ini << 'GITEACONF'
+        [server]
+        HTTP_PORT = 3000
+        ROOT_URL = http://localhost:3000/
+        DOMAIN = localhost
+        SSH_DOMAIN = localhost
+        DISABLE_SSH = true
+
+        [database]
+        DB_TYPE = sqlite3
+        PATH = /var/lib/gitea/data/gitea.db
+
+        [service]
+        DISABLE_REGISTRATION = true
+        REQUIRE_SIGNIN_VIEW = false
+        DEFAULT_KEEP_EMAIL_PRIVATE = true
+
+        [security]
+        INSTALL_LOCK = true
+        INTERNAL_TOKEN = $(head -c 32 /dev/urandom | base64 | tr -d '\n')
+
+        [log]
+        MODE = file
+        LEVEL = Warn
+
+        [repository]
+        DEFAULT_BRANCH = main
+
+        [mailer]
+        ENABLED = false
+        GITEACONF
+
+        # Start Gitea in background
+        nohup su -c '/usr/local/bin/gitea web --config /etc/gitea/app.ini' gitea \
+          > /var/lib/gitea/log/gitea-stdout.log 2>&1 &
+
+        # Wait for Gitea to be ready
+        echo "Waiting for Gitea..."
+        for i in $(seq 1 30); do
+          if curl -sf http://localhost:3000/api/v1/version >/dev/null 2>&1; then
+            echo "Gitea is ready."
+            break
+          fi
+          sleep 2
+        done
+
+        # Create workshop user via API
+        echo "Creating Gitea workshop user..."
+        gitea --config /etc/gitea/app.ini admin user create \
+          --username workshop \
+          --password workshop \
+          --email workshop@devoxx.gr \
+          --admin \
+          --must-change-password=false 2>/dev/null || true
+
+        # Create the workshop repo via API
+        echo "Creating workshop repository..."
+        curl -sf -X POST http://localhost:3000/api/v1/user/repos \
+          -H "Content-Type: application/json" \
+          -u "workshop:workshop" \
+          -d '{
+            "name": "flux-workshop",
+            "description": "Flux GitOps Workshop - Devoxx Greece 2026",
+            "default_branch": "main",
+            "auto_init": true,
+            "readme": "Default"
+          }' > /dev/null
+
+        # Configure git for laborant user
+        su - laborant -c 'git config --global user.email "workshop@devoxx.gr"'
+        su - laborant -c 'git config --global user.name "Workshop Participant"'
+        su - laborant -c 'git config --global credential.helper store'
+
+        # Store Gitea credentials for laborant
+        su - laborant -c 'echo "http://workshop:workshop@localhost:3000" > ~/.git-credentials'
+
+        # Clone and set up initial directory structure
+        su - laborant -c '
+          mkdir -p ~/workshop
+          cd ~/workshop
+          git clone http://workshop:workshop@localhost:3000/workshop/flux-workshop.git
+          cd flux-workshop
+          mkdir -p clusters/staging apps/base apps/staging infra/base infra/staging tenants/base tenants/team-a
+          git add .
+          git commit -m "Initial directory structure" --allow-empty
+          git push
+        '
+
+        # Copy workshop files (checkpoints, scripts, manifests) into home
+        if [ -d /opt/training/checkpoints ]; then
+          cp -r /opt/training/checkpoints /home/laborant/workshop/
+          cp -r /opt/training/scripts /home/laborant/workshop/ 2>/dev/null || true
+          cp -r /opt/training/manifests /home/laborant/workshop/ 2>/dev/null || true
+          chown -R laborant:laborant /home/laborant/workshop/
+        fi
+
+    init_verify:
+      name: init_verify
+      machine: dev-machine
+      init: true
+      user: laborant
+      needs:
+        - init_install_tools
+      run: |
+        echo "========================================="
+        echo "  Flux GitOps Workshop — Environment"
+        echo "========================================="
+        echo ""
+        echo "=== Cluster ==="
+        kubectl get nodes -o wide
+        echo ""
+        echo "=== Flux CLI ==="
+        flux --version
+        echo ""
+        echo "=== Helm ==="
+        helm version --short
+        echo ""
+        echo "=== Gitea ==="
+        curl -sf http://localhost:3000/api/v1/version | python3 -c "import sys,json; print('Gitea', json.load(sys.stdin)['version'])" 2>/dev/null || echo "Gitea not ready yet"
+        echo ""
+        echo "=== Git Repo ==="
+        cd ~/workshop/flux-workshop && git log --oneline -1
+        echo ""
+        echo "========================================="
+        echo "  Ready! Open the Gitea tab to browse"
+        echo "  your repo at http://localhost:3000"
+        echo ""
+        echo "  Gitea login: workshop / workshop"
+        echo "========================================="
+  accessControl:
+    canList:
+      - anyone
+    canRead:
+      - anyone
+    canStart:
+      - anyone

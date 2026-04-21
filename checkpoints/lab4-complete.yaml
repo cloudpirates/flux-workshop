@@ -1,0 +1,77 @@
+# Lab 4 Checkpoint: Multi-tenancy setup
+# Apply this if you fell behind during Lab 4:
+#   kubectl apply -f checkpoints/lab4-complete.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: team-a
+  labels:
+    toolkit.fluxcd.io/tenant: team-a
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: team-a
+  namespace: team-a
+  labels:
+    toolkit.fluxcd.io/tenant: team-a
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: team-a-admin
+  namespace: team-a
+  labels:
+    toolkit.fluxcd.io/tenant: team-a
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+  - kind: ServiceAccount
+    name: team-a
+    namespace: team-a
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: tenants
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: ./manifests/tenants/base
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: infra
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./manifests/infra/staging
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: team-a-apps
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: tenants
+  interval: 5m
+  path: ./manifests/apps/staging
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  targetNamespace: team-a
+  serviceAccountName: team-a

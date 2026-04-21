@@ -1,0 +1,33 @@
+# Lab 1 Checkpoint: Flux Bootstrap Complete
+# Apply this if you fell behind during Lab 1:
+#   kubectl apply -f checkpoints/lab1-complete.yaml
+#
+# NOTE: This doesn't replace a real bootstrap — it creates the
+# source and kustomization that flux bootstrap would create.
+# In a real scenario, flux bootstrap also commits to your Git repo.
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/workshop-participant/flux-workshop
+  ref:
+    branch: main
+  secretRef:
+    name: flux-system
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: flux-system
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: ./clusters/staging
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

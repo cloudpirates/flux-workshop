@@ -1,0 +1,42 @@
+# Lab 3 Checkpoint: Helm Release for podinfo
+# Apply this if you fell behind during Lab 3:
+#   kubectl apply -f checkpoints/lab3-complete.yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: helm-demo
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: podinfo
+  namespace: helm-demo
+spec:
+  interval: 1h
+  url: https://stefanprodan.github.io/podinfo
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: podinfo
+  namespace: helm-demo
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: podinfo
+      version: "6.7.x"
+      sourceRef:
+        kind: HelmRepository
+        name: podinfo
+      interval: 5m
+  values:
+    replicaCount: 2
+    ui:
+      color: "#1a73e8"
+      message: "Hello from Flux HelmRelease!"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 64Mi
