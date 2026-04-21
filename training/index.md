@@ -7,8 +7,10 @@ description: |
   A 90-minute hands-on workshop that takes you from a bare Kubernetes cluster to a
   production-grade GitOps pipeline using Flux. Based on ControlPlane's D2 Reference
   Architecture, you'll bootstrap Flux, deploy apps with GitRepository and Kustomization,
-  manage Helm releases declaratively, implement multi-tenancy with RBAC isolation, and
-  use OCI artifacts with drift detection. Each lab builds on the previous one.
+  manage Helm releases declaratively, implement multi-tenancy with RBAC isolation,
+  use OCI artifacts with drift detection, connect AI assistants to your cluster via
+  the Flux MCP Server, and explore production patterns like notifications, image
+  automation, and fleet management. Each lab builds on the previous one.
 
 categories:
   - kubernetes
@@ -17,14 +19,14 @@ categories:
 tagz:
   - flux
   - gitops
-  - helm
+  - mcp
   - multi-tenancy
-  - oci
+  - ai
 
 createdAt: 2026-04-21
 updatedAt: 2026-04-21
 
-cover: __static__/cover.png
+cover: __static__/flux-cover.png
 ---
 
 ## Workshop Overview
@@ -44,6 +46,8 @@ used by ControlPlane for enterprise Flux deployments:
 3. **Manage Helm charts** — declare HelmReleases instead of running `helm install`
 4. **Multi-tenancy** — separate platform and app team concerns with RBAC
 5. **OCI artifacts** — the "gitless GitOps" production pattern with drift correction
+6. **AI-Assisted GitOps** — connect the Flux MCP Server to talk to your cluster
+7. **Production patterns** — notifications, image automation, fleet management at scale
 
 ### Prerequisites
 
@@ -55,13 +59,15 @@ used by ControlPlane for enterprise Flux deployments:
 
 | Unit | Duration | Topic |
 |------|----------|-------|
-| unit-1 | 10 min | Introduction: GitOps and Flux |
-| unit-2 | 15 min | Lab 1: Bootstrap Flux |
-| unit-3 | 15 min | Lab 2: Deploy with GitRepository + Kustomization |
-| unit-4 | 15 min | Lab 3: Helm Releases with HelmRelease |
-| unit-5 | 15 min | Lab 4: Multi-Tenancy — The D2 Pattern |
+| unit-1 | 5 min | Introduction: GitOps and Flux |
+| unit-2 | 12 min | Lab 1: Bootstrap Flux |
+| unit-3 | 12 min | Lab 2: Deploy with GitRepository + Kustomization |
+| unit-4 | 12 min | Lab 3: Helm Releases with HelmRelease |
+| unit-5 | 12 min | Lab 4: Multi-Tenancy — The D2 Pattern |
 | unit-6 | 10 min | Lab 5: OCI Artifacts and Drift Detection |
-| wrap-up | 10 min | Q&A + where to go next (baked into unit-6) |
+| unit-7 | 10 min | Lab 6: AI-Assisted GitOps with Flux MCP Server |
+| unit-8 | 10 min | Lab 7: Advanced Topics & Production Patterns |
+| wrap-up | 7 min | Q&A (baked into unit-8) |
 
 ---
 
@@ -73,4 +79,4 @@ KubeCon speaker, and founder of [Kubespaces.io](https://kubespaces.io).
 - GitHub: [@ams0](https://github.com/ams0)
 - Email: alessandro.vozza@linux.com
 
-Source repo: [github.com/RichardFeynmanClaw/flux-workshop](https://github.com/RichardFeynmanClaw/flux-workshop)
+Source repo: [github.com/cloudpirates/flux-workshop](https://github.com/cloudpirates/flux-workshop)
