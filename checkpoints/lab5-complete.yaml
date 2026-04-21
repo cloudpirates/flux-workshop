@@ -2,34 +2,36 @@
 # Apply this if you fell behind during Lab 5:
 #   kubectl apply -f checkpoints/lab5-complete.yaml
 #
-# NOTE: You still need to push the OCI artifact manually:
-#   flux push artifact oci://ttl.sh/flux-workshop-$(whoami):1h \
-#     --path=./manifests/apps/staging \
-#     --source="local" \
-#     --revision="workshop/v1.0.0"
+# This replicates the state you'd have after committing
+# clusters/staging/podinfo-oci.yaml to the lab git repo and
+# letting Flux reconcile it.
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: podinfo-oci
+---
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: workshop-oci
-  namespace: flux-system
+  name: podinfo
+  namespace: podinfo-oci
 spec:
   interval: 1m
-  url: oci://ttl.sh/flux-workshop-laborant
+  url: oci://ghcr.io/stefanprodan/manifests/podinfo
   ref:
-    tag: 1h
+    semver: "6.x"
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: oci-demo
-  namespace: flux-system
+  name: podinfo
+  namespace: podinfo-oci
 spec:
   interval: 2m
-  path: .
+  targetNamespace: podinfo-oci
   prune: true
-  force: true
   sourceRef:
     kind: OCIRepository
-    name: workshop-oci
-  targetNamespace: oci-demo
+    name: podinfo
+  path: "./"
