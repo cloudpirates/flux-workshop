@@ -4,13 +4,11 @@ kind: training
 title: "From Git to Production: Hands-on GitOps with Flux"
 
 description: |
-  A 90-minute hands-on workshop that takes you from a bare Kubernetes cluster to a
-  production-grade GitOps pipeline using Flux. Based on ControlPlane's D2 Reference
-  Architecture, you'll bootstrap Flux, deploy apps with GitRepository and Kustomization,
-  manage Helm releases declaratively, implement multi-tenancy with RBAC isolation,
-  use OCI artifacts with drift detection, connect AI assistants to your cluster via
-  the Flux MCP Server, and explore production patterns like notifications, image
-  automation, and fleet management. Each lab builds on the previous one.
+  A 90-minute hands-on workshop from bare cluster to production-grade GitOps with Flux.
+  Based on ControlPlane's D2 Reference Architecture: bootstrap Flux, deploy with
+  Kustomization, manage HelmReleases, implement multi-tenancy, use OCI artifacts,
+  connect AI assistants via the Flux MCP Server, and explore notifications, image
+  automation, and fleet management.
 
 categories:
   - kubernetes
