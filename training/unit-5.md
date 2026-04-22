@@ -44,7 +44,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: team-a
-  namespace: team-a
+  namespace: flux-system
   labels:
     toolkit.fluxcd.io/tenant: team-a
 ---
@@ -62,7 +62,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: team-a
-    namespace: team-a
+    namespace: flux-system
 ```
 
 Create `manifests/tenants/team-a/kustomization.yaml`:

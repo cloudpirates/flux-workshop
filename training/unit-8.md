@@ -94,7 +94,7 @@ updates the repo and deploys it.
 
 ```yaml
 # manifests/infra/image-automation/image-repository.yaml
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: podinfo
@@ -104,7 +104,7 @@ spec:
   interval: 5m
 ---
 # manifests/infra/image-automation/image-policy.yaml
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: podinfo
@@ -121,7 +121,7 @@ spec:
 
 ```yaml
 # manifests/infra/image-automation/image-update.yaml
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageUpdateAutomation
 metadata:
   name: flux-system
