@@ -14,6 +14,7 @@ playground:
 
 tasks:
   podinfo_running:
+    machine: dev-machine
     run: |
       kubectl get deployment podinfo -n apps -o jsonpath='{.status.readyReplicas}' 2>/dev/null | grep -qE '^[1-9]'
 ---

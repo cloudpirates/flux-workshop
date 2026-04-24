@@ -14,6 +14,7 @@ playground:
 
 tasks:
   helmrelease_ready:
+    machine: dev-machine
     run: |
       flux get helmreleases -A 2>&1 | grep -q "True"
 ---

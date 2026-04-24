@@ -15,9 +15,11 @@ playground:
 
 tasks:
   tenant_namespace:
+    machine: dev-machine
     run: |
       kubectl get namespace team-a 2>/dev/null | grep -q Active
   tenant_pods:
+    machine: dev-machine
     needs:
       - tenant_namespace
     run: |

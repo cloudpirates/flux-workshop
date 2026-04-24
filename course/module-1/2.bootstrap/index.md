@@ -14,9 +14,11 @@ playground:
 
 tasks:
   flux_installed:
+    machine: dev-machine
     run: |
       flux check 2>&1 | grep -q "all checks passed"
   gitrepo_ready:
+    machine: dev-machine
     needs:
       - flux_installed
     run: |

@@ -15,9 +15,11 @@ playground:
 
 tasks:
   oci_source:
+    machine: dev-machine
     run: |
       flux get sources oci -A 2>&1 | grep -q "True"
   oci_pods:
+    machine: dev-machine
     needs:
       - oci_source
     run: |
