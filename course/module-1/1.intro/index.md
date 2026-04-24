@@ -7,9 +7,6 @@ description: |
 name: intro
 slug: introduction
 createdAt: 2026-04-23
-updatedAt: 2026-04-23
+updatedAt: 2026-04-24
 cover: __static__/flux-cover.png
-
-playground:
-  name: flux-workshop-ed43474f
 ---

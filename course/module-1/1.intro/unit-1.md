@@ -74,34 +74,4 @@ The key insight: **separate concerns into three repositories:**
 
 We'll build a simplified version of this pattern across the next 5 labs.
 
-## Environment Check
-
-Before we start, verify your environment is ready:
-
-```bash
-# Check Kubernetes cluster
-kubectl get nodes
-
-# Check Flux CLI
-flux --version
-
-# Check Helm
-helm version --short
-
-# Validate Flux prerequisites
-flux check --pre
-
-# Check Gitea (local Git server)
-curl -s http://localhost:3000/api/v1/version | python3 -c "import sys,json; print('Gitea', json.load(sys.stdin)['version'])"
-```
-
-You should see a running cluster, Flux CLI v2.x, and Gitea running. If anything is missing:
-
-```bash
-bash ~/workshop/scripts/setup.sh
-```
-
-Open the **Gitea** tab in the browser to see your Git server at `http://localhost:3000`.
-Login: **workshop** / **workshop**.
-
-Ready? Let's bootstrap Flux.
+> **Next:** Get hands-on with Kustomize — the tool Flux uses under the hood.
