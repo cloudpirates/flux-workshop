@@ -166,6 +166,8 @@ flux get kustomizations
 ```
 
 The GitRepository should show `Ready: True` with a fetched revision.
+The Kustomization will show `Ready: False` with "path not found" — that's normal! The
+`clusters/staging/` directory is empty. It will become Ready in Lab 2 when we add our first manifests.
 
 ## Step 6: Self-Healing Demo
 
@@ -195,7 +197,7 @@ ls ~/workshop/flux-workshop/clusters/staging/
 You should have:
 - ✅ All Flux controllers running
 - ✅ GitRepository `flux-system` → Ready
-- ✅ Kustomization `flux-system` → pointing at `./clusters/staging`
+- ✅ Kustomization `flux-system` → `Ready: False` (expected — `clusters/staging/` is empty until Lab 2)
 - ✅ A cloned repo at `~/workshop/flux-workshop`
 
 > **Next:** Deploy an application through the GitOps pipeline.

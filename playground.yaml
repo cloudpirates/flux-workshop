@@ -91,6 +91,11 @@ playground:
       kind: kexp
       name: Explorer
       machine: dev-machine
+    - id: port-3000
+      kind: port
+      name: Gitea
+      machine: dev-machine
+      port: 3000
   initTasks:
     init_setup:
       name: init_setup
