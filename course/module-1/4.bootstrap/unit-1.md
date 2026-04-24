@@ -169,19 +169,25 @@ The GitRepository should show `Ready: True` with a fetched revision.
 The Kustomization will show `Ready: False` with "path not found" — that's normal! The
 `clusters/staging/` directory is empty. It will become Ready in Lab 2 when we add our first manifests.
 
-## Step 6: Self-Healing Demo
+## Step 6: Understanding the GitOps Loop
 
-Flux is now managing your cluster. Let's prove it heals itself:
+Flux is now watching your Git repo and applying whatever it finds at `clusters/staging/`.
+Right now that path is empty, so Flux has nothing to do.
 
-```bash
-# Delete a Flux component
-kubectl delete deployment source-controller -n flux-system
+In the next lab, you'll add a Kustomization file to that path, push to Git, and watch
+Flux automatically deploy it. That's the GitOps loop:
 
-# Watch it come back (~30-60 seconds)
-kubectl get pods -n flux-system -w
+```
+  You push to Git
+       ↓
+  source-controller detects the change
+       ↓
+  kustomize-controller applies the manifests
+       ↓
+  Your app is running
 ```
 
-The kustomize-controller detects the drift and recreates the missing deployment. Press `Ctrl+C` once the pod is back.
+No `kubectl apply`. No CI/CD pipeline pushing to the cluster. Just Git.
 
 ## Checkpoint
 
