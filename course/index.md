@@ -41,7 +41,7 @@ used by ControlPlane for enterprise Flux deployments.
 
 | Module | Duration | Topics |
 |--------|----------|--------|
-| 1. GitOps Fundamentals | 17 min | What is GitOps, Flux architecture, bootstrap |
+| 1. Foundations | 27 min | GitOps concepts, hands-on Kustomize, Flux bootstrap |
 | 2. Core GitOps Patterns | 24 min | Kustomization, Helm releases |
 | 3. Enterprise Patterns | 22 min | Multi-tenancy, OCI artifacts, drift detection |
 | 4. AI & Production | 20 min | Flux MCP Server, notifications, image automation, scaling |
