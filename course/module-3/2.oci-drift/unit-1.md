@@ -6,9 +6,11 @@ name: lab5-oci-drift
 
 # Lab 5: OCI Artifacts and Drift Detection
 
-**Duration:** 10 minutes
-**Goal:** Replace Git with an OCI registry as your source of truth, then watch Flux correct
-manual drift in real time.
+> **Duration:** 10 minutes
+> **Goal:** Replace Git with an OCI registry as your source of truth, then watch Flux correct
+> manual drift in real time.
+>
+> **Catch-up:** If you're starting here, run `kubectl apply -f checkpoints/lab4-complete.yaml` to get the state from Labs 1-4.
 
 ## Why OCI?
 

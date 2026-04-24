@@ -8,6 +8,8 @@ name: lab6-ai-mcp-server
 
 > **Duration:** 10 minutes
 > **Goal:** Connect an AI assistant to your cluster via the Flux Operator MCP Server and use natural language to inspect, troubleshoot, and operate your GitOps pipeline.
+>
+> **Catch-up:** If you're starting here, run `kubectl apply -f checkpoints/lab5-complete.yaml` to get the state from Labs 1-5.
 
 ## Background
 

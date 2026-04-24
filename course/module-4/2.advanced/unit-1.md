@@ -8,6 +8,8 @@ name: lab7-advanced-topics
 
 > **Duration:** 10 minutes
 > **Goal:** Survey advanced Flux features you'll need in production — notifications, image automation, Flux Operator ResourceSets, and scaling patterns.
+>
+> **Catch-up:** If you're starting here, run `kubectl apply -f checkpoints/lab5-complete.yaml` to get the state from Labs 1-5.
 
 This is a fast-paced tour. Each topic includes working YAML you can apply in the playground
 and take home for your own clusters.
