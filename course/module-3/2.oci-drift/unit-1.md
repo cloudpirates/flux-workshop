@@ -4,6 +4,12 @@ title: "Lab 5: OCI Artifacts and Drift Detection"
 name: lab5-oci-drift
 ---
 
+> **Fresh playground?** If you're starting this lab on a new playground, run:
+> ```bash
+> curl -sf https://raw.githubusercontent.com/cloudpirates/flux-workshop/main/scripts/catch-up.sh | bash
+> ```
+> This sets up Gitea, Flux, and the workshop repo automatically (~4 min).
+
 # Lab 5: OCI Artifacts and Drift Detection
 
 > **Duration:** 10 minutes

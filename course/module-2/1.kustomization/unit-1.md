@@ -4,6 +4,12 @@ title: "Lab 2: Deploy with GitRepository + Kustomization"
 name: lab2-gitrepo-kustomization
 ---
 
+> **Fresh playground?** If you're starting this lab on a new playground, run:
+> ```bash
+> curl -sf https://raw.githubusercontent.com/cloudpirates/flux-workshop/main/scripts/catch-up.sh | bash
+> ```
+> This sets up Gitea, Flux, and the workshop repo automatically (~4 min).
+
 # Lab 2: Deploy with GitRepository + Kustomization
 
 **Duration:** 15 minutes

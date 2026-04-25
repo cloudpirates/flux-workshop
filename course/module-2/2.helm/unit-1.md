@@ -4,6 +4,12 @@ title: "Lab 3: Helm Releases with HelmRelease"
 name: lab3-helm-releases
 ---
 
+> **Fresh playground?** If you're starting this lab on a new playground, run:
+> ```bash
+> curl -sf https://raw.githubusercontent.com/cloudpirates/flux-workshop/main/scripts/catch-up.sh | bash
+> ```
+> This sets up Gitea, Flux, and the workshop repo automatically (~4 min).
+
 # Lab 3: Helm Releases with HelmRelease
 
 **Duration:** 15 minutes

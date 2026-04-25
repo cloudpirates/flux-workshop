@@ -4,6 +4,12 @@ title: "Lab 6: AI-Assisted GitOps with the Flux MCP Server"
 name: lab6-ai-mcp-server
 ---
 
+> **Fresh playground?** If you're starting this lab on a new playground, run:
+> ```bash
+> curl -sf https://raw.githubusercontent.com/cloudpirates/flux-workshop/main/scripts/catch-up.sh | bash
+> ```
+> This sets up Gitea, Flux, and the workshop repo automatically (~4 min).
+
 # Lab 6: AI-Assisted GitOps with the Flux MCP Server
 
 > **Duration:** 10 minutes
