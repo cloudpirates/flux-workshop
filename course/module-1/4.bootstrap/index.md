@@ -10,7 +10,7 @@ updatedAt: 2026-04-23
 cover: __static__/flux-cover.png
 
 playground:
-  name: flux-workshop-ed43474f
+  name: k3s
 
 tasks:
   flux_installed:

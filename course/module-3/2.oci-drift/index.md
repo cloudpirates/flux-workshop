@@ -11,7 +11,7 @@ updatedAt: 2026-04-23
 cover: __static__/flux-cover.png
 
 playground:
-  name: flux-workshop-ed43474f
+  name: flux-workshop-ready-dbd9ad17
 
 tasks:
   oci_source:
